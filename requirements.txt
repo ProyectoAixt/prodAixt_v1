@@ -1,4 +1,4 @@
 mkdocs
 mkdocs-material
-mkdocs-blog
+mkdocs-blog-plugin
 mkdocs-minify-plugin
