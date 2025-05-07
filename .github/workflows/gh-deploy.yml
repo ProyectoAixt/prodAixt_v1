@@ -6,7 +6,7 @@ on:
       - main  # Se ejecuta cuando haces push a la rama main
 
 permissions:
-  contents: write  # Permite hacer push a la rama gh-pages
+  contents: write   # Permite hacer push a la rama gh-pages
 
 jobs:
   deploy:
