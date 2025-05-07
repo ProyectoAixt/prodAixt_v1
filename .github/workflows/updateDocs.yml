@@ -28,12 +28,14 @@ jobs:
     - name: Cleanup cloned repo
       run: rm -rf aixt
 
-    - name: Commit changes
+    - name: Push changes
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add docs/repoFer
-        git commit -m "Update docs/repoFer from external repository"
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/ProyectoAixt/prodAixt_v1.git
+        git add .
+        git commit -m "Update docs/repoFer from external repo"
+        git push origin main
       continue-on-error: true  # evita fallo si no hay cambios nuevos
 
     - name: Push to main
