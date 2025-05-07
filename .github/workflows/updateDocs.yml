@@ -1,0 +1,40 @@
+name: Update Docs Folder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Clone external repository
+      run: git clone https://github.com/fermarsan/aixt.git
+
+    - name: Rename folder aixt/docs to aixt/repoFer
+      run: mv aixt/docs aixt/repoFer
+
+    - name: Remove old repoFer
+      run: rm -rf docs/repoFer
+
+    - name: Move new repoFer into docs/
+      run: mv aixt/repoFer ./docs/
+
+    - name: Cleanup cloned repo
+      run: rm -rf aixt
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add docs/repoFer
+        git commit -m "Update docs/repoFer from external repository"
+      continue-on-error: true  # evita fallo si no hay cambios nuevos
+
+    - name: Push to main
+      run: git push origin main
