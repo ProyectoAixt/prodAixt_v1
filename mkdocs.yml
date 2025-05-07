@@ -131,3 +131,6 @@ nav:
     - W801: repoFer/W801/quickref.md
     - CH573F-mini-BLE: repoFer/WCH/CH573F-mini-BLE/WCH/quickref.md
     - ESP32-C3FH4: repoFer/WeAct Studio/ESP32-C3FH4/quickref.md
+  - Blog:
+    - blog/index.md
+    
