@@ -1,8 +1,8 @@
-# Quick reference for the Arduino Nano board
+# Quick reference for the WeAct Studio STM32F411COre
 
-## Arduino Nano Pinout 
+##  STM32F411COre Pinout 
 
-![Alt text](Ard-Nano.jpg)
+![Alt text](STM32F411CE-Black-Pill-Board-Pinout-Diagram.jpg)
 
 
 ## Delay and Timing
@@ -41,10 +41,10 @@ Use the `pin` module:
 ```v
 import pin
 
-pin.setup(pin.d0, pin.input)
-pin.high(pin.d13)
-pin.low(pin.d3)
-pin.write(pin.d8, pin.read(pin.d0)) // pin echo
+pin.setup(pin.pa0, pin.input)
+pin.high(pin.pc13)
+pin.low(pin.pa3)
+pin.write(pin.pa8, pin.read(pin.pa0)) // pin echo
 ```
 
 ### Functions
@@ -58,10 +58,34 @@ pin.write(pin.d8, pin.read(pin.d0)) // pin echo
 
 
 ### Digital pin names
-The digital pin names are named from `d0` to `d21`.
+
+| Pin | STM32 Pin | Pin Number |
+| --- | --------- | ---------- |
+| d0  | PA3       | 3          |
+| d1  | PA2       | 2          |
+| d2  | PA10      | 10         |
+| d3  | PB3       | 19         |
+| d4  | PB5       | 21         |
+| d5  | PB4       | 20         |
+| d6  | PB10      | 26         |
+| d7  | PA8       | 8          |
+| d8  | PA9       | 9          |
+| d10 | PB6       | 22         |
+| d11 | PA7       | 7          |
+| d12 | PA6       | 6          |
+| d13 | PA5       | 5          |
+| d14 | PB9       | 25         |
+| d15 | PB8       | 24         |
+| d16 | PA0       | 0          |
+| d17 | PA1       | 1          |
+| d18 | PA4       | 4          |
+| d19 | PB7       | 23         |
+| d20 | PC13      | 31         |
+| d21 | PC14      | 32         |
 
 
-## Pin port module
+
+## Pin port modules
 Use the `port` module:
 
 ```v
@@ -85,8 +109,8 @@ port.write(port.b, val) // port echo
 | Port  | Aixt name |
 | :---: | :-------: |
 | **B** |    `b`    |
-| **A** |    `c`    |
-| **D** |    `d`    |
+| **A** |    `a`    |
+| **C** |    `c`    |
 
 
 ## PWM (Pulse Width Modulation)
@@ -185,17 +209,25 @@ for {
 import pin
 import ext
 
-@[ext_isr:'pin.d2']	// interrupt service routine
+__global (
+	state = true
+)
+
+@[ext_isr: 'pin.pa0']
 fn blink() {
-	pin.toggle(pin.led0)
-}
+	state = !state
+}S
 
-pin.setup(pin.d2, pin.input)
-pin.low(pin.led0)
+fn main() {
+	pin.setup(pin.pca0, pin.in_pulldown)
+	pin.setup(pin.pa8, pin.output)
+	pin.high(pin.pa8)
 
-ext.irq_enable(pin.d2, ext.change)	// interrupt request enabled
+	ext.irq_enable(pin.pa0, ext.rising)
 
-for {
-	// Empty infinite loop
+	for {
+		pin.write(pin.pa8, u8(state))
+	}
 }
 ```
+
